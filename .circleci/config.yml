@@ -18,6 +18,10 @@ jobs:
 
     steps:
       - checkout
+      - run:
+          name: Decode Google Cloud Credentials
+          command: echo ${HOME}
+#          command: echo ${GOOGLE_AUTH} | base64 -i --decode > ${HOME}/gcp-key.json
 
       # Download and cache dependencies
 #      - restore_cache:
