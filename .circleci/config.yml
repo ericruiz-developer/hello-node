@@ -20,8 +20,11 @@ jobs:
       - checkout
       - run:
           name: Decode Google Cloud Credentials
-          command: echo ${HOME}
-#          command: echo ${GOOGLE_AUTH} | base64 -i --decode > ${HOME}/gcp-key.json
+          command: echo ${GOOGLE_AUTH} | base64 -i --decode > ${HOME}/gcp-key.json
+      - deploy:
+              name: Deploy Master to GKE
+              command: |
+                ./deploy.sh
 
       # Download and cache dependencies
 #      - restore_cache:
