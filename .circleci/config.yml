@@ -22,10 +22,16 @@ jobs:
           name: Decode Google Cloud Credentials
           command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
       - run:
+          name: Install gcloud sdk
           command: export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash
       - run:
+          name: Print version of gcloud
           command: ~/google-cloud-sdk/bin/gcloud version
+      - run:
+          name: Set gcp service account
           command: ~/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+      - run:
+          name: Set project to use in gcp
           command: ~/google-cloud-sdk/bin/gcloud config set project heb-cp-training
 #      - run:
 #          name: chmod deploy.sh
