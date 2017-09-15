@@ -20,13 +20,7 @@ jobs:
       - checkout
       - run:
           name: Install gcloud sdk
-          command: export CLOUDSDK_CORE_DISABLE_PROMPTS=1;
-                   curl https://sdk.cloud.google.com | bash;
-                   ~/google-cloud-sdk/bin/gcloud version;
-                   ~/google-cloud-sdk/bin/gcloud --quiet components update
-      - run:
-          name: Update kubectl
-          command: ~/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+          command: ./install-gcloud.sh
       - run:
           name: Decode Google Cloud Credentials
           command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
