@@ -24,7 +24,7 @@ jobs:
       - run:
           command: export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash
       - run:
-          command: gcloud version
+          command: ~/google-cloud-sdk/bin/gcloud version
 #      - run:
 #          name: chmod deploy.sh
 #          command: chmod 755 ./deploy.sh
