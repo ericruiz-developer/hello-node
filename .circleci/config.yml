@@ -22,33 +22,8 @@ jobs:
           name: Install gcloud sdk
           command: ./install-gcloud.sh
       - run:
-          name: Decode Google Cloud Credentials
-          command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
-      - run:
-          name: Set gcp service account
-          command: ~/google-cloud-sdk/bin/gcloud --quiet auth activate-service-account --key-file ${HOME}/gcp-key.json
-      - run:
-          name: Set project to use in gcp
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
-      - run:
-          name: Set Cluster
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/cluster ${GOOGLE_CLUSTER_NAME}
-      - run:
-          name: Set zone
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
-      - run:
-          name: Set env USE_APPLICATION_DEFAULT_CREDENTIALS
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/use_application_default_credentials true
-      - run:
-          name: Set env USE_CLIENT_CERTIFICATE
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/use_client_certificate true
-      - run:
-          name: Get cluster credentials
-          command: ~/google-cloud-sdk/bin/gcloud container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
-
-#      - run:
-#          name: chmod deploy.sh
-#          command: chmod 755 ./deploy.sh
+          name: Authenticate
+          command: ./auth.sh
 #      - deploy:
 #              name: Deploy Master to GKE
 #              command: |
