@@ -36,7 +36,7 @@ jobs:
       # build and push Docker image
       - run: |
           TAG=gcr.io/heb-cp-training/hello-node:v1
-          docker build -t gcr.io/heb-cp-training/hello-node:$TAG .      # (3)
+          docker build -t $TAG .
       - run:
           name: Deploy to GCR
           command: ./deploy.sh
