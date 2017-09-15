@@ -1,6 +1,6 @@
 export GCLOUD_PATH=~/google-cloud-sdk/bin/gcloud
 echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
-echo ${HOME}/gcp-key.json
+cat ${HOME}/gcp-key.json
 #${GCLOUD_PATH} auth activate-service-account --key-file=${HOME}/gcp-key.json
 #${GCLOUD_PATH} config set project ${GOOGLE_PROJECT_ID}
 #${GCLOUD_PATH} config set container/cluster ${GOOGLE_CLUSTER_NAME}
