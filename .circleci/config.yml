@@ -22,12 +22,14 @@ jobs:
           name: Decode Google Cloud Credentials
           command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
       - run:
-          name: chmod deploy.sh
-          command: chmod 755 ./deploy.sh
-      - deploy:
-              name: Deploy Master to GKE
-              command: |
-                ./deploy.sh
+          command: export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash
+#      - run:
+#          name: chmod deploy.sh
+#          command: chmod 755 ./deploy.sh
+#      - deploy:
+#              name: Deploy Master to GKE
+#              command: |
+#                ./deploy.sh
 
       # Download and cache dependencies
 #      - restore_cache:
