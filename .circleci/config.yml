@@ -20,7 +20,10 @@ jobs:
       - checkout
       - run:
           name: Decode Google Cloud Credentials
-          command: ls -la
+          command: echo ${GOOGLE_AUTH} | base64 -d > ${HOME}/gcp-key.json
+      - run:
+          name: chmod deploy.sh
+          command: chmod 755 ./deploy.sh
       - deploy:
               name: Deploy Master to GKE
               command: |
