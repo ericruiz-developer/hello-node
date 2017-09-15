@@ -44,10 +44,10 @@ jobs:
           command: ~/google-cloud-sdk/bin/gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run:
           name: Set env USE_APPLICATION_DEFAULT_CREDENTIALS
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/USE_APPLICATION_DEFAULT_CREDENTIALS=true
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/use_application_default_credentials true
       - run:
           name: Set env USE_CLIENT_CERTIFICATE
-          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/USE_CLIENT_CERTIFICATE=true
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set container/use_client_certificate true
       - run:
           name: Get cluster credentials
           command: ~/google-cloud-sdk/bin/gcloud container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
