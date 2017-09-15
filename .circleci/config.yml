@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: node:alpine
+      - image: node:8.0.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -20,7 +20,7 @@ jobs:
       - checkout
       - run:
           name: Decode Google Cloud Credentials
-          command: echo ${GOOGLE_AUTH} | base64 -d > ${HOME}/gcp-key.json
+          command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
       - run:
           name: chmod deploy.sh
           command: chmod 755 ./deploy.sh
