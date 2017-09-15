@@ -32,7 +32,14 @@ jobs:
           command: ~/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run:
           name: Set project to use in gcp
-          command: ~/google-cloud-sdk/bin/gcloud config set project heb-cp-training
+          command: ~/google-cloud-sdk/bin/gcloud config set project ${GOOGLE_PROJECT_ID}
+      - run:
+          name: Set zone
+          command: ~/google-cloud-sdk/bin/gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+      - run:
+          name: Get cluster credentials
+          command: ~/google-cloud-sdk/bin/gcloud container clusters get-credentials ${GOOGLE_CLUSTER_NAME} --zone ${GOOGLE_COMPUTE_ZONE} --project ${GOOGLE_PROJECT_ID}
+
 #      - run:
 #          name: chmod deploy.sh
 #          command: chmod 755 ./deploy.sh
