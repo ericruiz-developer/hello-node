@@ -1,3 +1,4 @@
+export GCLOUD_PATH=~/google-cloud-sdk/bin/gcloud
 echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
 ${GCLOUD_PATH} --quiet auth activate-service-account --key-file ${HOME}/gcp-key.json
 ${GCLOUD_PATH} --quiet config set project ${GOOGLE_PROJECT_ID}
