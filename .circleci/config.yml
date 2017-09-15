@@ -17,33 +17,17 @@ jobs:
     working_directory: /app
 
     steps:
+      - checkout
       - run:
-          name: Install Docker
-          command: |
-            set -x
-            VER="17.03.0-ce"
-            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
-            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+          name: Install gcloud sdk
+          command: ./install-gcloud.sh
       - run:
-          command: docker -v
-#      - checkout
-#      - run:
-#          name: Install gcloud sdk
-#          command: ./install-gcloud.sh
-#      - run:
-#          name: Authenticate
-#          command: ./auth.sh
-#      - setup_remote_docker
-#      - run:
-#          name: Install Docker
-#          command: |
-#            set -x
-#            VER="17.03.0-ce"
-#            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
-#            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
-#      - deploy:
-#          name: Push to GCR
-#          command: ./deploy.sh
+          name: Authenticate
+          command: ./auth.sh
+      - setup_remote_docker
+      - deploy:
+          name: Push to GCR
+          command: ./deploy.sh
 
       # Download and cache dependencies
 #      - restore_cache:
