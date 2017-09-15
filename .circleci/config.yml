@@ -24,10 +24,9 @@ jobs:
       - run:
           name: Authenticate
           command: ./auth.sh
-#      - deploy:
-#              name: Deploy Master to GKE
-#              command: |
-#                ./deploy.sh
+      - deploy:
+          name: Push to GCR
+          command: ./deploy.sh
 
       # Download and cache dependencies
 #      - restore_cache:
