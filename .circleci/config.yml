@@ -19,26 +19,38 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Decode Google Cloud Credentials
-          command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
-      - run:
           name: Install gcloud sdk
           command: export CLOUDSDK_CORE_DISABLE_PROMPTS=1; curl https://sdk.cloud.google.com | bash
       - run:
           name: Print version of gcloud
           command: ~/google-cloud-sdk/bin/gcloud version
       - run:
+          name: Update components
+          command: ~/google-cloud-sdk/bin/gcloud --quiet components update
+      - run:
+          name: Update kubectl
+          command: ~/google-cloud-sdk/bin/gcloud --quiet components update kubectl
+      - run:
+          name: Decode Google Cloud Credentials
+          command: echo ${GOOGLE_AUTH} | base64 --decode -i > ${HOME}/gcp-key.json
+      - run:
           name: Set gcp service account
-          command: ~/google-cloud-sdk/bin/gcloud auth activate-service-account --key-file ${HOME}/gcp-key.json
+          command: ~/google-cloud-sdk/bin/gcloud --quiet auth activate-service-account --key-file ${HOME}/gcp-key.json
       - run:
           name: Set project to use in gcp
-          command: ~/google-cloud-sdk/bin/gcloud config set project ${GOOGLE_PROJECT_ID}
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
+      - run:
+          name: Set Cluster
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set cluster ${GOOGLE_CLUSTER_NAME}
       - run:
           name: Set zone
-          command: ~/google-cloud-sdk/bin/gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run:
-          name: Install kubectl component
-          command: ~/google-cloud-sdk/bin/gcloud components install kubectl
+          name: Set env USE_APPLICATION_DEFAULT_CREDENTIALS
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set USE_APPLICATION_DEFAULT_CREDENTIALS=true
+      - run:
+          name: Set env USE_CLIENT_CERTIFICATE
+          command: ~/google-cloud-sdk/bin/gcloud --quiet config set USE_CLIENT_CERTIFICATE=true
       - run:
           name: Get cluster credentials
           command: ~/google-cloud-sdk/bin/gcloud container clusters get-credentials ${GOOGLE_CLUSTER_NAME}
