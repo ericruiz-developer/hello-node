@@ -24,6 +24,7 @@ jobs:
       - run:
           name: Authenticate
           command: ./auth.sh
+
 #      - deploy:
 #              name: Deploy Master to GKE
 #              command: |
