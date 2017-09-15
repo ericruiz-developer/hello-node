@@ -37,7 +37,7 @@ jobs:
           name: Set zone
           command: ~/google-cloud-sdk/bin/gcloud config set compute/zone ${GOOGLE_COMPUTE_ZONE}
       - run:
-          name: Install kubectl comonent
+          name: Install kubectl component
           command: ~/google-cloud-sdk/bin/gcloud components install kubectl
       - run:
           name: Get cluster credentials
