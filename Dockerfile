@@ -1,8 +1,7 @@
 FROM node:alpine
 
 RUN pwd && ls
-COPY ['package.json', "./app/"]
+ADD . ./app
 RUN npm install && npm cache clean --force
-COPY . ./
 
 RUN npm start
