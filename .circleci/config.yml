@@ -25,9 +25,22 @@ jobs:
           name: Authenticate
           command: ./auth.sh
       - setup_remote_docker
-      - deploy:
-          name: Push to GCR
+      - run:
+          name: Install Docker client
+          command: |
+            set -x
+            VER="17.03.0-ce"
+            curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
+            tar -xz -C /tmp -f /tmp/docker-$VER.tgz
+            mv /tmp/docker/* /usr/bin
+      # build and push Docker image
+      - run: |
+          TAG=gcr.io/heb-cp-training/hello-node:v1
+          docker build -t /app/gcr.io/heb-cp-training/hello-node:$TAG .      # (3)
+      - run:
+          name: Deploy to GCR
           command: ./deploy.sh
+
 
       # Download and cache dependencies
 #      - restore_cache:
