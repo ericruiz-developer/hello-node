@@ -4,26 +4,15 @@
 #
 version: 2
 jobs:
-  build:
-    docker:
+  init:
+    setup:
       # specify the version you desire here
       - image: node:8.0.0
 
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/mongo:3.4.4
+        working_directory: /app
 
-    working_directory: /app
-
+  docker:
     steps:
-      - checkout
-      - run:
-          name: Install gcloud sdk
-          command: ./install-gcloud.sh
-      - run:
-          name: Authenticate
-          command: ./auth.sh
       - setup_remote_docker
       - run:
           name: Install Docker client
@@ -33,14 +22,52 @@ jobs:
             curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
+
+  google:
+    steps:
+      - run:
+          name: Install gcloud sdk
+          command: ./install-gcloud.sh
+      - run:
+          name: Authenticate
+          command: ./auth.sh
+
+  build:
+    steps:
+      - checkout
+
       # build and push Docker image
       - run: |
           TAG=gcr.io/heb-cp-training/hello-node:v1
           docker build -t $TAG .
-      - run:
-          name: Deploy to GCR
-          command: ./deploy.sh
 
+  deploy:
+    steps:
+      - run:
+        name: Deploy to GCR
+        command: ./deploy.sh
+
+workflows:
+  version: 2
+  init_installs_build_deploy:
+    jobs:
+      - init
+      - docker:
+          requires:
+            - init
+      - google:
+          requires:
+            - init
+      - build:
+          requires:
+            - docker
+      - hold:
+          type: approval
+          requires:
+            - build
+      - deploy:
+          requires:
+            - hold
 
       # Download and cache dependencies
 #      - restore_cache:
