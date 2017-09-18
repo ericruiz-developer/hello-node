@@ -8,8 +8,10 @@ jobs:
     docker:
       # specify the version you desire here
       - image: node:8.0.0
-
         working_directory: /app
+
+    steps:
+      - checkout
 
   docker:
     steps:
@@ -34,8 +36,6 @@ jobs:
 
   build:
     steps:
-      - checkout
-
       # build and push Docker image
       - run: |
           TAG=gcr.io/heb-cp-training/hello-node:v1
