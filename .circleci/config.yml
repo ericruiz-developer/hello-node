@@ -29,8 +29,9 @@ jobs:
           docker build -t $TAG .
 
   deploy:
-    - image: node:8.0.0
-      working_directory: /app
+    docker:
+      - image: node:8.0.0
+        working_directory: /app
     steps:
       - run:
         name: Deploy to GCR
