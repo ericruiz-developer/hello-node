@@ -33,10 +33,10 @@ jobs:
     steps:
       - run:
           name: Install gcloud sdk
-          command: ./install-gcloud.sh
+          command: ~/install-gcloud.sh
       - run:
           name: Authenticate
-          command: ./auth.sh
+          command: ~/auth.sh
 
   build:
     docker:
@@ -53,7 +53,7 @@ jobs:
     steps:
       - run:
         name: Deploy to GCR
-        command: ./deploy.sh
+        command: ~/deploy.sh
 
 workflows:
   version: 2
