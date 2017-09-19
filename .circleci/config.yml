@@ -16,6 +16,7 @@ jobs:
   docker:
     docker:
       - image: node:8.0.0
+        working_directory: /app
     steps:
       - setup_remote_docker
       - run:
@@ -30,17 +31,19 @@ jobs:
   google:
     docker:
         - image: node:8.0.0
+          working_directory: /app
     steps:
       - run:
           name: Install gcloud sdk
-          command: ~/install-gcloud.sh
+          command: ./install-gcloud.sh
       - run:
           name: Authenticate
-          command: ~/auth.sh
+          command: ./auth.sh
 
   build:
     docker:
       - image: node:8.0.0
+        working_directory: /app
     steps:
       # build and push Docker image
       - run: |
@@ -50,10 +53,11 @@ jobs:
   deploy:
     docker:
       - image: node:8.0.0
+        working_directory: /app
     steps:
       - run:
         name: Deploy to GCR
-        command: ~/deploy.sh
+        command: ./deploy.sh
 
 workflows:
   version: 2
