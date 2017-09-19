@@ -4,7 +4,7 @@
 #
 version: 2
 jobs:
-  setup:
+  build:
     docker:
       # specify the version you desire here
       - image: node:8.0.0
@@ -12,12 +12,6 @@ jobs:
 
     steps:
       - checkout
-
-  docker:
-    docker:
-      - image: node:8.0.0
-        working_directory: /app
-    steps:
       - setup_remote_docker
       - run:
           name: Install Docker client
@@ -27,33 +21,15 @@ jobs:
             curl -L -o /tmp/docker-$VER.tgz https://get.docker.com/builds/Linux/x86_64/docker-$VER.tgz
             tar -xz -C /tmp -f /tmp/docker-$VER.tgz
             mv /tmp/docker/* /usr/bin
-
-  google:
-    docker:
-        - image: node:8.0.0
-          working_directory: /app
-    steps:
       - run:
-          name: Install gcloud sdk
-          command: ./install-gcloud.sh
-      - run:
-          name: Authenticate
-          command: ./auth.sh
-
-  build:
-    docker:
-      - image: node:8.0.0
-        working_directory: /app
-    steps:
+          name: Install gcloud sdk and authenticate
+          command: ./install-gcloud.sh && ./auth.sh
       # build and push Docker image
       - run: |
           TAG=gcr.io/heb-cp-training/hello-node:v1
           docker build -t $TAG .
 
   deploy:
-    docker:
-      - image: node:8.0.0
-        working_directory: /app
     steps:
       - run:
         name: Deploy to GCR
@@ -63,16 +39,7 @@ workflows:
   version: 2
   init_installs_build_deploy:
     jobs:
-      - setup
-      - docker:
-          requires:
-            - setup
-      - google:
-          requires:
-            - setup
-      - build:
-          requires:
-            - docker
+      - build
       - hold:
           type: approval
           requires:
